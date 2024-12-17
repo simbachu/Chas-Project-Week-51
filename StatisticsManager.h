@@ -3,17 +3,11 @@
 #include <chrono>
 #include <thread>
 #include <vector>
-//#include "DataManager.cpp"
 #include <mutex>
+//#include "SensorManager.h"
 
-//Will be declared elsewhere - only for testing
-struct WeatherReport{
-    //std::chrono::time_point logged_time;
-    float temp;
-    float humidity;
-    float pressure; 
-    //float windSpeed;
-};
+
+struct WeatherReport;
 struct StatsData
 {
     float recordHigh;
@@ -48,7 +42,7 @@ class StatisticsManager
 
 public:
     //Main statistics function. Generates and writes to StatData every 5 sec, based on the entire history vector
-    static void make_StatsReport(StatisticsReport &StatData, std::mutex &, std::vector<WeatherReport> *history, std::mutex &);
+    static void make_StatsReport(StatisticsReport &StatData, std::mutex &, const std::vector<WeatherReport> *history, std::mutex &);
     
     StatisticsReport &getStatsData() { return latestReport; } // optional. Not currently used
 };

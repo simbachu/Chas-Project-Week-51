@@ -2,6 +2,12 @@
 #include "catch.hpp"
 #include "StatisticsManager.h"
 
+struct WeatherReport{
+    float temperature;
+    float humidity;
+    float pressure;
+    std::chrono::time_point<std::chrono::system_clock> time {std::chrono::system_clock::now()};
+};
 //
 //To be able to run this test you need to comment out the main func in StatisticsManager.cpp!!!!!!
 //
