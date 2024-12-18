@@ -81,7 +81,7 @@ void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out
         std::cerr << " " << std::this_thread::get_id() << " reporting " << '\n';
         std::lock_guard<std::mutex> output_lock(*lock_out);
         WeatherReport wr = {temp_sensor->poll(), 0.0, 0.0};
-        std::cout << "temp gotten from sensor: "<< wr.temperature << std::endl;
+        //std::cout << "temp gotten from sensor: "<< wr.temperature << std::endl;
         out->emplace_back(wr);
         std::this_thread::sleep_for(report_rate);
     }

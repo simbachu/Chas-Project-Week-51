@@ -13,6 +13,7 @@ struct StatsData
     float recordHigh;
     float recordLow;
     float mean;
+
     //add more stats-variables
 };
 
@@ -20,7 +21,7 @@ struct StatisticsReport
 {
     StatsData tempData;
     StatsData humData;
-    StatsData windData;
+    StatsData pressData;
 };
 
 /*
@@ -37,12 +38,11 @@ class StatisticsManager
 {
     StatisticsReport latestReport; // optional if object instance and not static use only. Not currently used anywhere
     
-    //Generate StatsData based on weather values
+     //Generate StatsData based on weather values
     static StatsData generateData(std::vector<float> *Values);
 
 public:
-    //Main statistics function. Generates and writes to StatData every 5 sec, based on the entire history vector
-    static void make_StatsReport(StatisticsReport &StatData, std::mutex &, const std::vector<WeatherReport> *history, std::mutex &);
     
+    static void make_StatsReport(StatisticsReport &StatData, std::mutex &, const std::vector<WeatherReport> *history, std::mutex &);
     StatisticsReport &getStatsData() { return latestReport; } // optional. Not currently used
 };

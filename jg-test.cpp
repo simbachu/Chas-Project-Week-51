@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "SensorManager.h"
-#include "StatisticsManager.h"
+#include "../Statistics/StatisticsManager.h"
 
 int main(){
     SensorManager s;
