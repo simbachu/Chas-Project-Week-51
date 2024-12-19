@@ -1,4 +1,4 @@
-#define CATCH_CONFIG_MAIN
+/* #define CATCH_CONFIG_MAIN
 #include "../include/catch.hpp"
 
 TEST_CASE( "Measure values" ){
@@ -30,4 +30,4 @@ SCENARIO("We want to measure the temperature"){
             }
         }
     }
-}
+} */

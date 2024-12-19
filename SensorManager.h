@@ -10,7 +10,7 @@
 #include "TempSensor.h"
 #include "HumiditySensor.h"
 #include "PressureSensor.h"
-#include "DisplayReport.h"
+//#include "DisplayReport.h"
 
 /*
 Small proof of concept.

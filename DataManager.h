@@ -1,6 +1,6 @@
 #ifndef DATAMANAGER_H
 #define DATAMANAGER_H
-
+/* 
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -51,5 +51,5 @@ class DataManager{
     public:
     static void make_report(std::vector<WeatherReport>*out, std::mutex&);
 };
-
+ */
 #endif

@@ -5,6 +5,17 @@
 #include <sstream>
 #include "SensorManager.h"
 
+std::ostream& operator << (std::ostream& os, WeatherReport& wr){
+    auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::stringstream ss(std::ctime(&now));
+    os << "\n" << ss.str() 
+                << "Temperature: " << wr.temperature << " C"
+                << "\nHumidity: " << wr.humidity << " %"
+                << "\nPressure: " << wr.pressure << " hpa";
+    return os;
+}
+
+
 /*
     Namespace for different source functions for the data.
     You could make one that consumes a list for instance.
@@ -113,7 +124,7 @@ void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out
                             pressure_sensor->poll()};
         out->emplace_back(wr);
 
-        displayWeather(wr);
+        std::cout << wr;
 
         //auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         //ss.str(std::ctime(&now));
