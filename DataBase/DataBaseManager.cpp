@@ -1,33 +1,5 @@
 #include "DataBaseManager.h"
 
-/*
-A c_cpp_properties.json file like this needs to be added to .vscode
-{
-    "configurations": [
-        {
-            "name": "Win32",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "C:/sqlite"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "intelliSenseMode": "windows-gcc-x64",
-            "compilerPath": "C:/msys64/ucrt64/bin/g++.exe",
-            "cppStandard": "c++17",
-            "cStandard": "c17"
-        }
-    ],
-    "version": 4
-}
-and the following lines needs to be added to task.json
-"-I", "C:/sqlite",
-"-L", "C:/sqlite",
-"-lsqlite3"
-*/
 void updateCurrentReport(std::string weatherMeasurement, StatsData &Data, int argc, char **argv, char **azColName)
 {
     for (int i = 0; i < argc; i++)
@@ -57,12 +29,6 @@ void updateCurrentReport(std::string weatherMeasurement, StatsData &Data, int ar
 // Callback function for SELECT queries
 int DataBaseManager::callback(void *data, int argc, char **argv, char **azColName)
 {
-    for (int i = 0; i < argc; i++)
-    {
-        //Prints the table content
-        //std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;
-    }
-    std::cout << std::endl;
 
     //check if the data is of type StatisticsReport
     StatisticsReport *weatherDataList = static_cast<StatisticsReport *>(data);
@@ -104,7 +70,9 @@ void DataBaseManager::createTable(sqlite3 *db)
                                  "weatherDataType TEXT, "
                                  "recordHigh FLOAT, "
                                  "recordLow FLOAT, "
-                                 "mean FLOAT);";
+                                 "mean FLOAT, "
+                                 "recordHigh_Time, "
+                                 "recordLow_Time);";
     char *errMsg = 0;
     int rc = sqlite3_exec(db, createTableSQL, nullptr, 0, &errMsg);
     if (rc != SQLITE_OK)
@@ -112,10 +80,6 @@ void DataBaseManager::createTable(sqlite3 *db)
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     }
-    //else
-    //{
-    //    std::cout << "Table created successfully" << std::endl;
-    //}
 }
 
 // Function to insert a WeatherReport
@@ -139,10 +103,6 @@ void DataBaseManager::insertData(sqlite3 *db, StatisticsReport &Data)
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     }
-    //else
-    //{
-    //    std::cout << "Data added successfully!" << std::endl;
-    //}
 }
 
 // Function to read statistics
@@ -156,24 +116,4 @@ void DataBaseManager::readData(sqlite3 *db)
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     }
-    //else
-    //{
-    //    std::cout << "Statsistics data fetched successfully!" << std::endl;
-    //}
 }
-
-// int main() {
-//     sqlite3* db = openDatabase("C:\\Chas\\ProjectWeek\\StatisticsDB.db"); //edit the path to your \\ProjectWeek repo
-//     if (!db) return 1;
-
-//     createTable(db);
-
-//     // Example of inserting a contact
-//     //insertData(db, Data);
-
-//     // Example of reading all contacts
-//     readData(db);
-
-//     sqlite3_close(db);
-//     return 0;
-// }
