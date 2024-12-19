@@ -7,11 +7,17 @@
 
 std::ostream& operator << (std::ostream& os, WeatherReport& wr){
     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::stringstream ss(std::ctime(&now));
-    os << "\n" << ss.str() 
-                << "Temperature: " << wr.temperature << " C"
+    std::stringstream ss ("\n"); //Buffer stream to not get interrupted in another thread
+    std::mutex ctg;
+    {
+        //ctime is not thread safe. We need to guard the location we are reading
+        std::lock_guard<std::mutex> lock(ctg);
+        ss << std::ctime(&now);
+    }
+    ss          << "Temperature: " << wr.temperature << " C"
                 << "\nHumidity: " << wr.humidity << " %"
                 << "\nPressure: " << wr.pressure << " hpa";
+    os << ss.str(); //Move the contents of buffer to our output stream
     return os;
 }
 
@@ -114,7 +120,6 @@ void displayTime() {
 
 void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out) const
 {
-    std::stringstream ss;
     while (1)
     {   std::cout << "\n---------------------";
         //std::cerr << "\nThread: " << std::this_thread::get_id() << " reporting " << '\n';
