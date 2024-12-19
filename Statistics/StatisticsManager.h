@@ -1,19 +1,19 @@
 #pragma once
 
 #include <chrono>
+#include <ctime>
 #include <thread>
 #include <vector>
 #include <mutex>
-//#include "SensorManager.h"
+#include "../SensorManager.h"
 
-
-struct WeatherReport;
 struct StatsData
 {
     float recordHigh;
     float recordLow;
     float mean;
-
+    std::chrono::time_point<std::chrono::system_clock> maxTime{std::chrono::system_clock::now()};
+    std::chrono::time_point<std::chrono::system_clock> minTime{std::chrono::system_clock::now()};
     //add more stats-variables
 };
 
@@ -39,7 +39,8 @@ class StatisticsManager
     StatisticsReport latestReport; // optional if object instance and not static use only. Not currently used anywhere
     
      //Generate StatsData based on weather values
-    static StatsData generateData(std::vector<float> *Values);
+    static StatsData generateData(const std::vector<std::pair<float, std::chrono::time_point<std::chrono::system_clock>>> &values);
+    static void printStats(const StatisticsReport& currentReport, const StatisticsReport& newReport);
 
 public:
     
