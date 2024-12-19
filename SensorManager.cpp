@@ -16,7 +16,7 @@ std::ostream& operator << (std::ostream& os, WeatherReport& wr){
     }
     ss          << "Temperature: " << wr.temperature << " C"
                 << "\nHumidity: " << wr.humidity << " %"
-                << "\nPressure: " << wr.pressure << " hpa";
+                << "\nPressure: " << wr.pressure << " hpa\n";
     os << ss.str(); //Move the contents of buffer to our output stream
     return os;
 }
@@ -107,21 +107,21 @@ void SensorManager::operator()(std::vector<WeatherReport> *out, std::mutex *lock
     Could probably move all this into the functor?
 */
 
-void displayTime() {
-    while(true){
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        std::stringstream ss;
-        //std::lock_guard<std::mutex> lock(mtx);
-        std::cout << "Current Time: " << std::ctime(&now) << std::endl;
-    }
-}
+//void displayTime() {
+//    while(true){
+//        std::this_thread::sleep_for(std::chrono::seconds(1));
+//
+//        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+//        std::stringstream ss;
+//        //std::lock_guard<std::mutex> lock(mtx);
+//        std::cout << "Current Time: " << std::ctime(&now) << std::endl;
+//    }
+//}
 
 void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out) const
 {
     while (1)
-    {   std::cout << "\n---------------------\n";
+    {   std::cout << "\n---------SENSOR----------\n";
         //std::cerr << "\nThread: " << std::this_thread::get_id() << " reporting " << '\n';
         std::lock_guard<std::mutex> output_lock(*lock_out);
         WeatherReport wr = {temp_sensor->poll(),

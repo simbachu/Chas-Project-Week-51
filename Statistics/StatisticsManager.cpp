@@ -135,24 +135,25 @@ void StatisticsManager::printStats(const StatisticsReport &currentReport, const 
 
     // Temperature report
     time_t tempTime = std::chrono::system_clock::to_time_t(newReport.tempData.maxTime);
+    std::cout <<  "\n----------STAT MANAGER----------";
     stream << "\nRecord high temperature: " << newReport.tempData.recordHigh
            << " measured at " << std::ctime(&tempTime);
     if (newTempHigh)
-        stream << "This is a new record high temperature!\n\n";
+        stream << "This is a new record high temperature!\n";
 
     // Humidity report
     time_t humTime = std::chrono::system_clock::to_time_t(newReport.humData.maxTime);
     stream << "Record high humidity: " << newReport.humData.recordHigh
            << " measured at " << std::ctime(&humTime);
     if (newHumHigh)
-        stream << "This is a new record high humidity!\n\n";
+        stream << "This is a new record high humidity!\n";
 
     // Pressure report
     time_t pressTime = std::chrono::system_clock::to_time_t(newReport.pressData.maxTime);
     stream << "Record high pressure: " << newReport.pressData.recordHigh
            << " measured at " << std::ctime(&pressTime);
     if (newPressHigh)
-        stream << "This is a new record high pressure!\n\n";
+        stream << "This is a new record high pressure!\n";
 
     std::cout << stream.str();
 }
