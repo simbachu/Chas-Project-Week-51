@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "StatisticsManager.h"
-#include "DataBaseManager.h"
+#include "../DataBase/DataBaseManager.h"
  struct WeatherReport
  {
      float temperature;

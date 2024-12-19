@@ -60,7 +60,7 @@ int DataBaseManager::callback(void *data, int argc, char **argv, char **azColNam
     for (int i = 0; i < argc; i++)
     {
         //Prints the table content
-        std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;
+        //std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;
     }
     std::cout << std::endl;
 
@@ -112,10 +112,10 @@ void DataBaseManager::createTable(sqlite3 *db)
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     }
-    else
-    {
-        std::cout << "Table created successfully" << std::endl;
-    }
+    //else
+    //{
+    //    std::cout << "Table created successfully" << std::endl;
+    //}
 }
 
 // Function to insert a WeatherReport
@@ -139,10 +139,10 @@ void DataBaseManager::insertData(sqlite3 *db, StatisticsReport &Data)
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     }
-    else
-    {
-        std::cout << "Data added successfully!" << std::endl;
-    }
+    //else
+    //{
+    //    std::cout << "Data added successfully!" << std::endl;
+    //}
 }
 
 // Function to read statistics
@@ -156,10 +156,10 @@ void DataBaseManager::readData(sqlite3 *db)
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     }
-    else
-    {
-        std::cout << "Statsistics data fetched successfully!" << std::endl;
-    }
+    //else
+    //{
+    //    std::cout << "Statsistics data fetched successfully!" << std::endl;
+    //}
 }
 
 // int main() {

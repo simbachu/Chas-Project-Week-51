@@ -1,6 +1,8 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <ctime>
+#include <sstream>
 #include "SensorManager.h"
 
 /*
@@ -88,19 +90,33 @@ void SensorManager::operator()(std::vector<WeatherReport> *out, std::mutex *lock
     Could probably move all this into the functor?
 */
 
+void displayTime() {
+    while(true){
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        std::stringstream ss;
+        //std::lock_guard<std::mutex> lock(mtx);
+        std::cout << "Current Time: " << std::ctime(&now) << std::endl;
+    }
+}
+
 void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out) const
 {
+    std::stringstream ss;
     while (1)
-    {
-        std::cerr << " " << std::this_thread::get_id() << " reporting " << '\n';
+    {   std::cout << "\n-----------";
+        //std::cerr << "\nThread: " << std::this_thread::get_id() << " reporting " << '\n';
         std::lock_guard<std::mutex> output_lock(*lock_out);
         WeatherReport wr = {temp_sensor->poll(),
                             humidity_sensor->poll(),
                             pressure_sensor->poll()};
         out->emplace_back(wr);
-        std::cerr << "Temperature: " << wr.temperature
-                  << ", Humidity: " << wr.humidity
-                  << ", Pressure: " << wr.pressure << '\n';
+        //ss << std::ctime(&wr.time);
+        std::cout //<< "\nCurrent time: " << ss.str() 
+                  << "\nTemperature: " << wr.temperature
+                  << "\nHumidity: " << wr.humidity
+                  << "\nPressure: " << wr.pressure << '\n';
         std::this_thread::sleep_for(report_rate);
     }
 }

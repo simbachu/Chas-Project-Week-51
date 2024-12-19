@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "SensorManager.h"
-#include "../Statistics/StatisticsManager.h"
+#include "Statistics/StatisticsManager.h"
 
 int main(){
     SensorManager s;
@@ -12,17 +12,16 @@ int main(){
     StatisticsReport statisticsReport;
     std::mutex statistics_lock;
     std::thread stats_making(StatisticsManager::make_StatsReport, std::ref(statisticsReport), std::ref(statistics_lock), &history, std::ref(history_lock));
-   
+    
     std::thread weather_monitoring(std::ref(s), &history, &history_lock);
     while (1){
-        while ( history.size() == 0 ){
-
-        }
-        auto latest = history.back();
-        if ( history.back().time != latest.time ){
-            std::cout << "Measured " << latest.temperature << "degrees " << '\n';
-            latest = history.back();
-        }
+       // while ( history.size() == 0 ){
+       // }
+       // auto latest = history.back();
+       // if ( history.back().time != latest.time ){
+       //     std::cout << "Measured " << latest.temperature << "degrees " << '\n';
+       //     latest = history.back();
+       // }
     }
 
     weather_monitoring.join(); 
