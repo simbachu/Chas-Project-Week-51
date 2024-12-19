@@ -3,9 +3,8 @@
 #include <mutex>
 #include <chrono>
 #include <ctime>
+#include <sstream>
 #include "DisplayReport.h"
-
-
 
 std::mutex mtx;
 
@@ -20,14 +19,12 @@ void displayTime() {
     }
 }
 
-void displayWeather(){
-    while(true){
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+void displayWeather(WeatherReport &wr){
 
-        history.updateWeatherData();
-
-        std::lock_guard<std::mutex> lock(mtx);
-        history.getWeatherData();
-       std::cout << "" << std::endl;
-    }
+        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        std::stringstream ss(std::ctime(&now));
+        std::cout << "\n" << ss.str() 
+                  << "Temperature: " << wr.temperature << " C"
+                  << "\nHumidity: " << wr.humidity << " %"
+                  << "\nPressure: " << wr.pressure << " hpa";
 }

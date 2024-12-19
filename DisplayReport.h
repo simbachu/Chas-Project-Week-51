@@ -5,12 +5,12 @@
 #include <thread>
 #include <mutex>
 #include <chrono>
-
+#include "SensorManager.h"
 
 extern std::mutex mtx;
 
 void displayTime();
 
-void displayWeather();
+void displayWeather(WeatherReport &wr);
 
 #endif

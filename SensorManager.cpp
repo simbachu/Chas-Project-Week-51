@@ -105,18 +105,22 @@ void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out
 {
     std::stringstream ss;
     while (1)
-    {   std::cout << "\n-----------";
+    {   std::cout << "\n---------------------";
         //std::cerr << "\nThread: " << std::this_thread::get_id() << " reporting " << '\n';
         std::lock_guard<std::mutex> output_lock(*lock_out);
         WeatherReport wr = {temp_sensor->poll(),
                             humidity_sensor->poll(),
                             pressure_sensor->poll()};
         out->emplace_back(wr);
-        //ss << std::ctime(&wr.time);
-        std::cout //<< "\nCurrent time: " << ss.str() 
-                  << "\nTemperature: " << wr.temperature
-                  << "\nHumidity: " << wr.humidity
-                  << "\nPressure: " << wr.pressure << '\n';
+
+        displayWeather(wr);
+
+        //auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        //ss.str(std::ctime(&now));
+        //std::cout << "\n" << ss.str() 
+        //          << "Temperature: " << wr.temperature << " C"
+        //          << "\nHumidity: " << wr.humidity << " %"
+        //          << "\nPressure: " << wr.pressure << " hpa";
         std::this_thread::sleep_for(report_rate);
     }
 }
