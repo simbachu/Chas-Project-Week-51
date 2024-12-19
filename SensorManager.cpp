@@ -121,7 +121,7 @@ void displayTime() {
 void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out) const
 {
     while (1)
-    {   std::cout << "\n---------------------";
+    {   std::cout << "\n---------------------\n";
         //std::cerr << "\nThread: " << std::this_thread::get_id() << " reporting " << '\n';
         std::lock_guard<std::mutex> output_lock(*lock_out);
         WeatherReport wr = {temp_sensor->poll(),
