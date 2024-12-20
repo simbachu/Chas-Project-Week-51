@@ -3,6 +3,7 @@
 #include <iostream>
 #include "StatisticsManager.h"
 #include "../DataBase/DataBaseManager.h"
+#include <cstdlib>
 
 #ifdef DEBUG
 #define LOG(x) std::cout << x << std::endl
@@ -78,7 +79,7 @@ void StatisticsManager::make_StatsReport(StatisticsReport &outReport, std::mutex
             // Save the report to a SQL Database
             dbManager.insertData(db, outReport); // Updates dbManager.currentReport and writes to outReport
         }
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(std::chrono::seconds(10));
     }
     sqlite3_close(db);
 }
