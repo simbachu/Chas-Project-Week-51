@@ -15,6 +15,14 @@
 #include "SensorManager.h"
 #include "Statistics/StatisticsManager.h"
 
+
+/**
+ * @brief main function doxygen test
+ * 
+ * @return int 
+ */
+
+
 int main(){
     SensorManager s;
     std::vector<WeatherReport> history;
