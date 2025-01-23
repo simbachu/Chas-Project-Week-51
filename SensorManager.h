@@ -1,14 +1,3 @@
-/**
- * @file SensorManager.h SensorManager.cpp
- * @author simbachu 
- * @brief 
- * @version 0.1
- * @date 2024-12-18
- * 
- * @copyright Copyright (c) 2024
- * 
- */
-
 #ifndef CHAS_SENSORMANAGER_H
 #define CHAS_SENSORMANAGER_H
 
@@ -63,7 +52,7 @@ struct WeatherReport
 // };
 
 /**
- * @brief Class for collecting information from sensors and writing 
+ * @brief Class for collecting information from sensors and generating reports
  * 
  */
 
