@@ -28,11 +28,6 @@ std::ostream& operator << (std::ostream& os, WeatherReport& wr){
     return os;
 }
 
-/**
- * @brief Construct a new Sensor Manager:: Sensor Manager object
- * Constructor is non-trivial and requires defining the sensors and the threads we are using for them
- */
-
 SensorManager::SensorManager()
 {
     temp_sensor = std::make_unique<TempSensor>();

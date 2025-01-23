@@ -1,3 +1,14 @@
+/**
+ * @file SensorManager.h SensorManager.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2025-01-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #ifndef CHAS_SENSORMANAGER_H
 #define CHAS_SENSORMANAGER_H
 
