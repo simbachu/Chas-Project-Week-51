@@ -1,6 +1,17 @@
-#include <random>
-#include <iostream>
+/**
+ * @file jg-test.cpp
+ * @author binasime, simbachu, DavidReyes88, Shwky88
+ * 
+ * @brief Group project to summarize the Course 2 (System developing C/C++)
+ * A multithreaded program that polls weather reports from different sensors.
+ * 
+ * @version 0.1
+ * @date 2025-01-23
+ * 
+ * @copyright Copyright (c) 2025
+ */
 
+#include <iostream>
 #include "SensorManager.h"
 #include "Statistics/StatisticsManager.h"
 
