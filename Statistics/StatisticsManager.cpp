@@ -11,7 +11,12 @@
 #define LOG(x)
 #endif
 
-// Main statistics function. Generates and writes to StatData every 5 sec, based on the entire history vector
+/**
+     * @brief  Main statistics function. Generates and writes to StatData every 5 sec, based on the entire weather history data
+     * 
+     * @param StatData - output statistics data to write to 
+     * @param history - Weather history data
+     */
 void StatisticsManager::make_StatsReport(StatisticsReport &outReport, std::mutex &statistics_mutex, const std::vector<WeatherReport> *history, std::mutex &history_mutex)
 {
     DataBaseManager dbManager;
@@ -83,8 +88,12 @@ void StatisticsManager::make_StatsReport(StatisticsReport &outReport, std::mutex
     }
     sqlite3_close(db);
 }
-
-// Generate StatsData based on weather values. Caluclates max,min,mean and associates timepoints to max,min values
+/**
+     * @brief Generates Statistics data based on weather values. Calculates max, min and mean values.
+     * 
+     * @param values - Weather values
+     * @return StatsData 
+     */
 StatsData StatisticsManager::generateData(const std::vector<std::pair<float, std::chrono::time_point<std::chrono::system_clock>>> &values)
 {
     StatsData data;
@@ -120,7 +129,13 @@ StatsData StatisticsManager::generateData(const std::vector<std::pair<float, std
     return data;
 }
 
-//print possible new record measurements.
+/**
+     * @brief prints the statistics report to the console.
+     * 
+     * @param currentReport 
+     * @param newReport 
+     * Used to calculate the difference between the two reports
+     */
 void StatisticsManager::printStats(const StatisticsReport &currentReport, const StatisticsReport &newReport)
 {
     // Check if new high scores. If so the stream reflects this

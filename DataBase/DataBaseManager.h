@@ -8,6 +8,10 @@
 #include <iomanip>
 #include <map>
 
+/**
+ * @brief class for managing the SQL database
+ * 
+ */
 class DataBaseManager
 {
 
@@ -18,6 +22,4 @@ public:
     void createTable(sqlite3 *db);
     void insertData(sqlite3 *db, StatisticsReport &Data);
     void readData(sqlite3 *db);
-    //std::string convertToString(std::chrono::system_clock::time_point tp);
-    //static std::chrono::system_clock::time_point convertToTimePoint(const std::string &time_str);
 };

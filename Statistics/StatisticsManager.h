@@ -7,6 +7,10 @@
 #include <mutex>
 #include "../SensorManager.h"
 
+/**
+ * @brief Struct for storing weather statistics data for a single type of weatherdata
+ * 
+ */
 struct StatsData
 {
     float recordHigh;
@@ -14,9 +18,12 @@ struct StatsData
     float mean;
     std::chrono::time_point<std::chrono::system_clock> maxTime{std::chrono::system_clock::now()};
     std::chrono::time_point<std::chrono::system_clock> minTime{std::chrono::system_clock::now()};
-    //add more stats-variables
 };
 
+/**
+ * @brief Struct for storing weather statistics data for all types of weatherdata
+ * 
+ */
 struct StatisticsReport
 {
     StatsData tempData;
@@ -24,26 +31,16 @@ struct StatisticsReport
     StatsData pressData;
 };
 
-/*
-En tråd som var 5:e sekund beräknar statstik på de senaste mätningarna
-Sensorer generarar data som sparas i "senaste data" och sedan i vektorn history
-Var 5:e sek läser statsmanager av denna vektor och genererar data baserad på detta och skriver till statisticsReport.
-Maxvärde: recordHigh
-Minvärde: recordLow
-medelvärde: mean
-för temp, luftfuktighet samt vindhastighet
-*/
-
+/**
+ * @brief Class to manage statistics of weather data
+ */
 class StatisticsManager
 {
-    StatisticsReport latestReport; // optional if object instance and not static use only. Not currently used anywhere
     
-     //Generate StatsData based on weather values
     static StatsData generateData(const std::vector<std::pair<float, std::chrono::time_point<std::chrono::system_clock>>> &values);
     static void printStats(const StatisticsReport& currentReport, const StatisticsReport& newReport);
 
 public:
-    
     static void make_StatsReport(StatisticsReport &StatData, std::mutex &, const std::vector<WeatherReport> *history, std::mutex &);
-    StatisticsReport &getStatsData() { return latestReport; } // optional. Not currently used
+
 };

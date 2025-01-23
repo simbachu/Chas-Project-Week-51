@@ -1,5 +1,14 @@
 #include "DataBaseManager.h"
 
+/**
+ * @brief Function to update the current report
+ * 
+ * @param weatherMeasurement 
+ * @param Data 
+ * @param argc 
+ * @param argv 
+ * @param azColName 
+ */
 void updateCurrentReport(std::string weatherMeasurement, StatsData &Data, int argc, char **argv, char **azColName)
 {
     for (int i = 0; i < argc; i++)
@@ -29,7 +38,6 @@ void updateCurrentReport(std::string weatherMeasurement, StatsData &Data, int ar
 // Callback function for SELECT queries
 int DataBaseManager::callback(void *data, int argc, char **argv, char **azColName)
 {
-
     //check if the data is of type StatisticsReport
     StatisticsReport *weatherDataList = static_cast<StatisticsReport *>(data);
     //Loop through the table and add relevant table_data to "data(currentReport)"
@@ -46,7 +54,12 @@ int DataBaseManager::callback(void *data, int argc, char **argv, char **azColNam
     return 0;
 }
 
-// Function to open SQLite database
+/**
+ * @brief Function to open SQLite database
+ * 
+ * @param dbName 
+ * @return sqlite3* 
+ */
 sqlite3 *DataBaseManager::openDatabase(const char *dbName)
 {
     sqlite3 *db;
@@ -63,7 +76,11 @@ sqlite3 *DataBaseManager::openDatabase(const char *dbName)
     }
 }
 
-// Function to create table
+/**
+ * @brief Function to create table
+ * 
+ * @param db 
+ */
 void DataBaseManager::createTable(sqlite3 *db)
 {
     const char *createTableSQL = "CREATE TABLE IF NOT EXISTS Statistics ("
@@ -82,7 +99,12 @@ void DataBaseManager::createTable(sqlite3 *db)
     }
 }
 
-// Function to insert a WeatherReport
+/**
+ * @brief Function to insert a WeatherReport into the database
+ * 
+ * @param db 
+ * @param Data 
+ */
 void DataBaseManager::insertData(sqlite3 *db, StatisticsReport &Data)
 {
     currentReport = Data;
@@ -105,7 +127,11 @@ void DataBaseManager::insertData(sqlite3 *db, StatisticsReport &Data)
     }
 }
 
-// Function to read statistics
+/**
+ * @brief Function to read data from the database
+ * 
+ * @param db 
+ */
 void DataBaseManager::readData(sqlite3 *db)
 {
     const char *selectSQL = "SELECT * FROM Statistics;";
