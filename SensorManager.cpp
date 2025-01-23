@@ -5,6 +5,16 @@
 #include <sstream>
 #include "SensorManager.h"
 
+
+/**
+ * @brief 
+ * Operator overload for stream output
+ * @param os
+ * The output stream to write to 
+ * @param wr 
+ * The weather report to print
+ * @return std::ostream& 
+ */
 std::ostream& operator << (std::ostream& os, WeatherReport& wr){
     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::stringstream ss ("\n"); //Buffer stream to not get interrupted in another thread
@@ -21,52 +31,10 @@ std::ostream& operator << (std::ostream& os, WeatherReport& wr){
     return os;
 }
 
-
-/*
-    Namespace for different source functions for the data.
-    You could make one that consumes a list for instance.
-*/
-
-// namespace sensor_reading{
-//     float random(float low, float high, std::mt19937 &gen){
-//         std::uniform_real_distribution<float> interval (low, high);
-//         return interval(gen);
-//     }
-// }
-
-/*
-    Virtual destructor for subclassing with smart pointers
-*/
-
-// Sensor::~Sensor(){
-
-// }
-
-/*
-    Functor for threading
-*/
-
-// void TempSensor::operator()() {
-//     std::mt19937 mt (std::random_device{}());
-//     while(1){
-//         last_measurement = sensor_reading::random(5.0f, 15.0f, mt);
-//         std::cerr << std::this_thread::get_id() << " " << last_measurement << '\n';
-//         std::this_thread::sleep_for(rate);
-//     }
-// }
-
-/*
-    For reading sensor value
-*/
-
-// float TempSensor::poll() const {
-//     return last_measurement;
-// }
-
-/*
-    Constructor is non-trivial and requires defining the sensors
-    and the threads we are using for them
-*/
+/**
+ * @brief Construct a new Sensor Manager:: Sensor Manager object
+ * Constructor is non-trivial and requires defining the sensors and the threads we are using for them
+ */
 
 SensorManager::SensorManager()
 {
@@ -79,10 +47,10 @@ SensorManager::SensorManager()
     sensor_threads.push_back(std::thread(std::ref(*temp_sensor)));
 }
 
-/*
-    Joining the threads in the destructor like a jthread
-*/
-
+/**
+ * @brief Destroy the Sensor Manager:: Sensor Manager object
+ * Joining the threads in the destructor like a jthread
+ */
 SensorManager::~SensorManager()
 {
     temp_sensor->stop();
@@ -94,35 +62,26 @@ SensorManager::~SensorManager()
     }
 }
 
-/*
-    Functor for threading
-*/
-
+/**
+ * @brief Callable overload for SensorManager
+ * Functor for std::thread call
+ * @param out Destination vector
+ * @param lock_out Lock for the destination vector
+ */
 void SensorManager::operator()(std::vector<WeatherReport> *out, std::mutex *lock_out)
 {
     report(out, lock_out);
 }
 
-/*
-    Could probably move all this into the functor?
-*/
-
-//void displayTime() {
-//    while(true){
-//        std::this_thread::sleep_for(std::chrono::seconds(1));
-//
-//        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-//        std::stringstream ss;
-//        //std::lock_guard<std::mutex> lock(mtx);
-//        std::cout << "Current Time: " << std::ctime(&now) << std::endl;
-//    }
-//}
-
+/**
+ * @brief Generate weather report from sensor data
+ * @param out Destination vector for the WeatherReport
+ * @param lock_out Lock for the destination vector
+ */
 void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out) const
 {
     while (1)
     {   std::cout << "\n---------SENSOR----------\n";
-        //std::cerr << "\nThread: " << std::this_thread::get_id() << " reporting " << '\n';
         std::lock_guard<std::mutex> output_lock(*lock_out);
         WeatherReport wr = {temp_sensor->poll(),
                             humidity_sensor->poll(),
@@ -131,12 +90,6 @@ void SensorManager::report(std::vector<WeatherReport> *out, std::mutex *lock_out
 
         std::cout << wr;
 
-        //auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        //ss.str(std::ctime(&now));
-        //std::cout << "\n" << ss.str() 
-        //          << "Temperature: " << wr.temperature << " C"
-        //          << "\nHumidity: " << wr.humidity << " %"
-        //          << "\nPressure: " << wr.pressure << " hpa";
         std::this_thread::sleep_for(report_rate);
     }
 }
