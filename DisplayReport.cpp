@@ -8,6 +8,9 @@
 
 std::mutex mtx;
 
+/**
+ * @brief function to display the current time.
+ */
 void displayTime() {
     while(true){
         std::this_thread::sleep_for(std::chrono::seconds(1));       
@@ -19,6 +22,11 @@ void displayTime() {
     }
 }
 
+/**
+ * @brief function to timestamp current WeatherReport
+ * 
+ * @param wr ref of complete WeatherReport 
+ */
 void displayWeather(WeatherReport &wr){
 
         auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
