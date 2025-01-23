@@ -7,13 +7,10 @@
 
 
 /**
- * @brief 
- * Operator overload for stream output
- * @param os
- * The output stream to write to 
- * @param wr 
- * The weather report to print
- * @return std::ostream& 
+ * @brief Operator overload for stream output ( os << wr )
+ * @param os The output stream to write to (left hand side of <<)
+ * @param wr The weather report to print (right hand side of <<)
+ * @return std::ostream& The result of concatenating os << wr
  */
 std::ostream& operator << (std::ostream& os, WeatherReport& wr){
     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
