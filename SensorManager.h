@@ -20,6 +20,11 @@ Various sensors can be defined, and can use different source functions for the d
 
 */
 
+
+/**
+ * @brief Struct for storing sensor data
+ * Time is default constructed to the current system time unless otherwise defined
+ */
 struct WeatherReport
 {
     float temperature;
@@ -45,6 +50,11 @@ struct WeatherReport
 //     void operator()() override;
 //     virtual float poll() const override;
 // };
+
+/**
+ * @brief Class for collecting information from sensors and generating reports
+ * 
+ */
 
 class SensorManager
 {
